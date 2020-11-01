@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
+import argparse
 import cv2
-import sys
 
 PROPORTION = 0.46
 
@@ -23,9 +23,17 @@ def aa(array, background=None):
             print('\033[38;5;{}m#'.format(code), end='')
         print('\033[0;00m')
 
-img = cv2.imread(sys.argv[1])
-
 width = 100
+
+ap = argparse.ArgumentParser()
+ap.add_argument('image', help='path to input image')
+ap.add_argument('-w', '--width', type=int, help='width of output image')
+args = ap.parse_args()
+if args.width:
+    width = args.width
+
+img = cv2.imread(args.image)
+
 height = int(img.shape[0] / img.shape[1] * width * PROPORTION)
 img = cv2.resize(img, (width, height))
 
