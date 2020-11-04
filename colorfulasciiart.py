@@ -23,20 +23,17 @@ def paint(array, background=None):
             print('\033[38;5;{}m#'.format(code), end='')
         print('\033[0;00m')
 
-# default value
-width = 100
-background = None
-
 # argparse
 ap = argparse.ArgumentParser()
 ap.add_argument('image', help='path to input image')
-ap.add_argument('-w', '--width', type=int, help='width of output image')
-ap.add_argument('-b', '--background', help='specify background color like #ffffff')
+ap.add_argument('-w', '--width', type=int, help='width of output image', default=100)
+ap.add_argument('-b', '--background', help='specify background color like #ffffff', default=None)
 args = ap.parse_args()
-if args.width:
-    width = args.width
-if args.background:
-    bgrgb = [int(args.background.lstrip('#')[i:i + 2], 16) for i in (0, 2, 4)]
+
+width = args.width
+background = args.background
+if background:
+    bgrgb = [int(background.lstrip('#')[i:i + 2], 16) for i in (0, 2, 4)]
     background = rgbToAnsi256(bgrgb[0], bgrgb[1], bgrgb[2])
 
 
